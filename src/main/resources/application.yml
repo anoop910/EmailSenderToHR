@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: emailSendToHR
+  datasource:
+    url: jdbc:mysql://localhost:3306/emailSendToHRDB
+    username: root
+    password: AnooP@91025
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: anoop91098@gmail.com
+    password: tyac frup jglz vyzh
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+app:
+  message:
+    welcome: <h1>Good Moring</h1>
