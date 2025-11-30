@@ -16,13 +16,27 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: anoop91098@gmail.com
-    password: tyac frup jglz vyzh
+    password: lpve xrvw rzxd rviv
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+
+  imap:
+    host: imap.gmail.com
+    port: 993
+    username: anoop91098@gmail.com
+    password: lpve xrvw rzxd rviv
+    ssl:
+      enable: true
+    store:
+      protocol: imaps
+    
+
+
+
 app:
   message:
     welcome: <h1>Good Moring</h1>
