@@ -13,6 +13,7 @@ import jakarta.mail.Folder;
 import jakarta.mail.Message;
 import jakarta.mail.Session;
 import jakarta.mail.Store;
+import jakarta.mail.URLName;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -43,13 +44,20 @@ public class EmailServiceImpl implements EmailService {
             store.connect(mailProperties.getImap().get("host"), mailProperties.getImap().get("username"),
                     mailProperties.getImap().get("password"));
 
-            Folder inbox = store.getFolder("INBOX");
+            Folder inbox = store.getFolder("[Gmail]/Sent Mail");
+            Folder sent = store.getDefaultFolder();
+           Folder[] defaultFolder = sent.list("*");
+           for (Folder folder : defaultFolder) {
+            System.out.println("================="+folder.getName()+ "===================");
+           }
+         
+            
             inbox.open(Folder.READ_ONLY);
             System.out.println(inbox.getMessageCount());
             int end = inbox.getMessageCount();
             int start = Math.max(0, end - 20);
 
-            Message[] messages = inbox.getMessages(start, end);
+            Message[] messages = inbox.getMessages();
 
             for (Message msg : messages) {
                 System.out.println("------------------------");

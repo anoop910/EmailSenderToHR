@@ -1,6 +1,7 @@
 package com.Anoop.Model;
 
 import jakarta.persistence.Basic;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -18,5 +19,8 @@ public class Template {
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private String templateCode;
-    private Boolean delete;
+    private String title;
+    @Column(name = "is_deleted")
+    private boolean deleted;
+
 }

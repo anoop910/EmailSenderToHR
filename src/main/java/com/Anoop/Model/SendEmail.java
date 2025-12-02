@@ -15,4 +15,7 @@ public class SendEmail {
     private String toEmail;
     private String subject;
     private String body;
+    private String bcc;
+    private String cc;
+    
 }

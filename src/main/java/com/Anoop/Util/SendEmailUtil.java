@@ -23,6 +23,8 @@ public class SendEmailUtil {
             helper.setSubject(sendEmailReq.getSubject());
             helper.setText(sendEmailReq.getBody(), true);
             helper.setTo(sendEmailReq.getToEmail());
+            helper.setBcc(sendEmailReq.getBcc());
+            helper.setCc(sendEmailReq.getCc());
             mailSender.send(message);
             return true;
         } catch (MessagingException e) {

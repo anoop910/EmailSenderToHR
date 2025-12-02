@@ -11,4 +11,6 @@ public class SendEmailReq {
     private String subject;
     @NotNull
     private String body;
+    private String bcc;
+    private String cc;
 }
