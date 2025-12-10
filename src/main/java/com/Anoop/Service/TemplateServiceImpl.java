@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.Anoop.Model.Template;
 import com.Anoop.Repository.TemplateRepo;
+import com.Anoop.Request.EditTemplate;
 import com.Anoop.Request.SaveTemplate;
 import com.Anoop.Response.GetAllTemplate;
 import com.Anoop.Response.GetTemplateCode;
@@ -26,10 +27,12 @@ public class TemplateServiceImpl implements TemplateService {
         List<GetAllTemplate> getAllTemplates = new ArrayList<>();
 
         for (Template template : templates) {
-            GetAllTemplate getAllTemplate = new GetAllTemplate();
-            getAllTemplate.setId(template.getId());
-            getAllTemplate.setTitle(template.getTitle());
-            getAllTemplates.add(getAllTemplate);
+            if (!template.isDeleted()) {
+                GetAllTemplate getAllTemplate = new GetAllTemplate();
+                getAllTemplate.setId(template.getId());
+                getAllTemplate.setTitle(template.getTitle());
+                getAllTemplates.add(getAllTemplate);
+            }
 
         }
         return getAllTemplates;
@@ -52,11 +55,29 @@ public class TemplateServiceImpl implements TemplateService {
     public GetTemplateCode getTemplateCode(Long id) {
         Template template = templateRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Template not found with id: " + id));
-        
+
         GetTemplateCode templateCode = new GetTemplateCode();
         templateCode.setTemplateCode(template.getTemplateCode());
         return templateCode;
 
+    }
+
+    @Override
+    public Boolean editTemplate(Long id, EditTemplate editTemplate) {
+        Template template = templateRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Template not fund with id : " + id));
+        template.setTemplateCode(editTemplate.getTemplateCode());
+        templateRepo.save(template);
+        return true;
+    }
+
+    @Override
+    public Boolean deleteTemplate(Long id) {
+        Template template = templateRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Template Not found by :" + id));
+        template.setDeleted(true);
+        templateRepo.save(template);
+        return true;
     }
 
 }

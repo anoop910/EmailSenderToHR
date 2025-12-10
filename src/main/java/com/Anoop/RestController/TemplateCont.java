@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Anoop.Request.EditTemplate;
 import com.Anoop.Request.SaveTemplate;
 import com.Anoop.Response.GetAllTemplate;
 import com.Anoop.Response.GetTemplateCode;
 import com.Anoop.Service.TemplateService;
 
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/template")
@@ -28,6 +29,7 @@ public class TemplateCont {
 
     @GetMapping("/all")
     public List<GetAllTemplate> getAllTemplatesRest(){
+        System.out.println("request come from fronted");
         return templateService.getAllTemplates();
     }
     
@@ -40,5 +42,15 @@ public class TemplateCont {
     @GetMapping("/code{id}")
     public GetTemplateCode getTemplateCodeById(@PathVariable Long id){
         return templateService.getTemplateCode(id);
+    }
+
+    @PostMapping("/edit{id}")
+    public Boolean editTemplate(@PathVariable Long id, @RequestBody EditTemplate editTemplate){
+        return templateService.editTemplate(id, editTemplate);
+    }
+
+    @DeleteMapping("/delete{id}")
+    public Boolean deleteTempate(@PathVariable Long id){
+        return templateService.deleteTemplate(id);
     }
 }

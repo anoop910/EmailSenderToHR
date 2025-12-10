@@ -1,77 +1,100 @@
 package com.Anoop.Service;
 
-import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.Anoop.ConstantConfi.MailProperties;
 import com.Anoop.Request.SendEmailReq;
+import com.Anoop.Telegram.TelegramNotifier;
 import com.Anoop.Util.SendEmailUtil;
 
-import jakarta.mail.Folder;
-import jakarta.mail.Message;
-import jakarta.mail.Session;
-import jakarta.mail.Store;
-import jakarta.mail.URLName;
 
 @Service
 public class EmailServiceImpl implements EmailService {
+
+   
+
     @Autowired
     private SendEmailUtil sendEmailUtil;
 
-    @Autowired
-    private MailProperties mailProperties;
+  
 
     @Override
-    public String emailSender(SendEmailReq sendEmailReq) {
+    public String emailSender(SendEmailReq sendEmailReq, MultipartFile file) {
 
-        sendEmailUtil.sendEmail(sendEmailReq);
+        Boolean isSent = sendEmailUtil.sendEmail(sendEmailReq, file);
+        if (isSent) {
+            String text = "Email  Sent to:  \n" + sendEmailReq.getToEmail(); 
+            TelegramNotifier.sendTelegramMessage(text);
+
+            System.out.println("email sent");
+        }else{
+            System.out.println("email not sent");
+        }
         return "Email Sended";
 
     }
 
     @Override
     public void reciveEmail() {
-        try {
-            Properties props = new Properties();
-            props.put("mail.store.protocol", "imaps");
+        // try {
+        //     Properties props = new Properties();
+        //     props.put("mail.store.protocol", "imaps");
 
-            Session session = Session.getDefaultInstance(props);
-            Store store = session.getStore("imaps");
-            System.out.println("===============" + mailProperties.getImap().get("password") + "===================");
+        //     Session session = Session.getDefaultInstance(props);
+        //     Store store = session.getStore("imaps");
 
-            store.connect(mailProperties.getImap().get("host"), mailProperties.getImap().get("username"),
-                    mailProperties.getImap().get("password"));
+        //     store.connect("imap.gmail.com", "anoop91098@gmail.com","ixxi leho cwwq epia");
 
-            Folder inbox = store.getFolder("[Gmail]/Sent Mail");
-            Folder sent = store.getDefaultFolder();
-           Folder[] defaultFolder = sent.list("*");
-           for (Folder folder : defaultFolder) {
-            System.out.println("================="+folder.getName()+ "===================");
-           }
-         
+        //    IMAPFolder inbox = (IMAPFolder) store.getFolder("INBOX");
+        //     inbox.open(Folder.READ_ONLY);
             
-            inbox.open(Folder.READ_ONLY);
-            System.out.println(inbox.getMessageCount());
-            int end = inbox.getMessageCount();
-            int start = Math.max(0, end - 20);
+        //     inbox.addMessageCountListener(new MessageCountAdapter() {
+        //         @Override
+        //         public void messagesAdded(MessageCountEvent event) {
+        //             try {
+        //                 for (Message message : event.getMessages()) {
 
-            Message[] messages = inbox.getMessages();
+        //                     String subject = message.getSubject();
+        //                     Address from = message.getFrom()[0];
+                            
 
-            for (Message msg : messages) {
-                System.out.println("------------------------");
-                System.out.println("From: " + msg.getFrom()[0]);
-                System.out.println("Subject: " + msg.getSubject());
-                System.out.println("Body: " + msg.getContent());
-            }
+        //                     String telegramText =
+        //                             "📩 New Email Received\n"
+        //                                     + "From: " + from + "\n"
+        //                                     + "Subject: " + subject;
 
-            inbox.close(false);
-            store.close();
+        //                     TelegramNotifier.sendTelegramMessage(telegramText);
+        //                 }
+        //             } catch (Exception e) {
+        //                 e.printStackTrace();
+        //             }
+        //         }
+        //     });
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        //     // Enable real-time listening
+        //     Thread idleThread = new Thread(() -> {
+        //         try {
+        //             int a = 0;
+        //             while (true) {
+        //                 System.out.println("Listening for new emails... "+a);
+        //                 inbox.idle();
+        //                 a++;
+        //             }
+        //         } catch (Exception e) {
+        //             e.printStackTrace();
+        //         }
+        //     });
+
+        //     idleThread.start();
+           
+            
+            
+
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
     }
 
 }

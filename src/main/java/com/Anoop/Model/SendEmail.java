@@ -1,5 +1,7 @@
 package com.Anoop.Model;
 
+import java.io.File;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,5 +19,6 @@ public class SendEmail {
     private String body;
     private String bcc;
     private String cc;
+    private File file;
     
 }

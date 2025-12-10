@@ -8,7 +8,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -16,24 +16,26 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: anoop91098@gmail.com
-    password: lpve xrvw rzxd rviv
+    password: 
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
-
   imap:
     host: imap.gmail.com
     port: 993
     username: anoop91098@gmail.com
-    password: lpve xrvw rzxd rviv
+    password: 
     ssl:
       enable: true
     store:
       protocol: imaps
-    
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB  
 
 
 

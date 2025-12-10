@@ -1,5 +1,6 @@
 package com.Anoop.Request;
 
+
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -13,4 +14,5 @@ public class SendEmailReq {
     private String body;
     private String bcc;
     private String cc;
+   
 }
